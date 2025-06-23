@@ -48,3 +48,20 @@ def get_file_content(working_directory, file_path):
     except Exception as e:
         return f'Error: {str(e)}'
 
+def write_file(working_directory, file_path, content):
+    complete_file_path = os.path.join(working_directory, file_path)
+    abs_complete_file_path = os.path.abspath(complete_file_path)
+    abs_working_dir = os.path.abspath(working_directory)
+
+    if not abs_complete_file_path.startswith(abs_working_dir):
+        return f'Error: Cannot write to "{file_path}" as it is outside the permitted working directory'
+    if not os.path.isdir(os.path.dirname(abs_complete_file_path)):
+        return f'Error: Cannot write to "{file_path}" as the parent directory does not exist'
+
+    try:
+        with open(abs_complete_file_path, 'w') as file:
+            file.write(content)
+        return f'Successfully wrote to "{file_path}" ({len(content)} characters written)'
+    except Exception as e:
+        return f'Error: {str(e)}'
+
