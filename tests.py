@@ -1,4 +1,7 @@
-from functions.file_commands import get_files_info, get_file_content, write_file, run_python_file
+from functions.get_file_content import get_file_content
+from functions.get_files_info  import get_files_info
+from functions.run_python import run_python_file
+from functions.write_file_content import write_file
 '''
 print(get_files_info("calculator", "."))
 print(get_files_info("calculator", "pkg"))
