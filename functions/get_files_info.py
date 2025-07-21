@@ -5,6 +5,7 @@ from google.genai import types
 def get_files_info(working_directory, directory=None):
     abs_working_dir = os.path.abspath(working_directory)
     target_dir = abs_working_dir
+    # Initially sets the directory to list to the working_dir
     if directory:
         target_dir = os.path.abspath(os.path.join(working_directory, directory))
     if not target_dir.startswith(abs_working_dir):
@@ -13,9 +14,9 @@ def get_files_info(working_directory, directory=None):
         return f'Error: "{directory}" is not a directory'
     try:
         files_info = []
+        # Core Logic
         for filename in os.listdir(target_dir):
             filepath = os.path.join(target_dir, filename)
-            file_size = 0
             is_dir = os.path.isdir(filepath)
             file_size = os.path.getsize(filepath)
             files_info.append(
@@ -27,6 +28,7 @@ def get_files_info(working_directory, directory=None):
 
 
 schema_get_files_info = types.FunctionDeclaration(
+    # Function Declaration
     name="get_files_info",
     description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
     parameters=types.Schema(

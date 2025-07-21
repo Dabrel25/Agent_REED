@@ -6,6 +6,7 @@ from functions.run_python import run_python_file, schema_run_python_file
 from functions.write_file_content import write_file, schema_write_file
 from config import WORKING_DIR
 
+# available functions for LLM to execute
 available_functions = types.Tool(
     function_declarations=[
         schema_get_files_info,
@@ -23,6 +24,7 @@ def call_function(function_call_part, verbose=False):
         )
     else:
         print(f" - Calling function: {function_call_part.name}")
+        # acts as a lookup table
     function_map = {
         "get_files_info": get_files_info,
         "get_file_content": get_file_content,
@@ -40,9 +42,11 @@ def call_function(function_call_part, verbose=False):
                 )
             ],
         )
+    # converts LLM arguments into a standard python
     args = dict(function_call_part.args)
     args["working_directory"] = WORKING_DIR
     function_result = function_map[function_name](**args)
+    # formats the result of the tool
     return types.Content(
         role="tool",
         parts=[

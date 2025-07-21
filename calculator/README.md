@@ -1,2 +1,0 @@
-# calculator
-I am calculator

@@ -1,3 +1,3 @@
 MAX_CHARS = 10000
-WORKING_DIR = "./project"
-MAX_ITERS = 50
+WORKING_DIR = "./calculator"
+MAX_ITERS = 20

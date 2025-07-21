@@ -4,13 +4,17 @@ from config import MAX_CHARS
 
 
 def get_file_content(working_directory, file_path):
+    # converts working_directory to an absolute path
     abs_working_dir = os.path.abspath(working_directory)
     abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
     if not abs_file_path.startswith(abs_working_dir):
+        # checks if abspath is within scope
         return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
     if not os.path.isfile(abs_file_path):
+        # checks if the path exists
         return f'Error: File not found or is not a regular file: "{file_path}"'
     try:
+        # function that reads the file
         with open(abs_file_path, "r") as f:
             content = f.read(MAX_CHARS)
             if os.path.getsize(abs_file_path) > MAX_CHARS:
@@ -23,6 +27,7 @@ def get_file_content(working_directory, file_path):
 
 
 schema_get_file_content = types.FunctionDeclaration(
+    # function declaration to LLM
     name="get_file_content",
     description=f"Reads and returns the first {MAX_CHARS} characters of the content from a specified file within the working directory.",
     parameters=types.Schema(

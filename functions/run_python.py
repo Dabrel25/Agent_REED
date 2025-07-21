@@ -10,12 +10,16 @@ def run_python_file(working_directory, file_path, args=None):
         return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
     if not os.path.exists(abs_file_path):
         return f'Error: File "{file_path}" not found.'
+    # includes error handling for filetype
     if not file_path.endswith(".py"):
         return f'Error: "{file_path}" is not a Python file.'
     try:
+        # Creates the command list that subprocess.run will execute.
         commands = ["python", abs_file_path]
+        # additional args
         if args:
             commands.extend(args)
+        # core call to run subprocess
         result = subprocess.run(
             commands,
             capture_output=True,
@@ -23,6 +27,7 @@ def run_python_file(working_directory, file_path, args=None):
             timeout=30,
             cwd=abs_working_dir,
         )
+        # error handling
         output = []
         if result.stdout:
             output.append(f"STDOUT:\n{result.stdout}")
